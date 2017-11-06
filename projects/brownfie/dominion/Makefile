@@ -33,7 +33,7 @@ runtests: testDrawCard
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
-all: playdom player testDrawCard testBuyCard badTestDrawCard assertTrue unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2
+all: playdom player testDrawCard testBuyCard badTestDrawCard assertTrue unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 randomtestcard1 randomtestcard2 randomadventurer
 
 clean:
 ifeq ($(OS),Windows_NT)
@@ -45,23 +45,48 @@ endif
 assertTrue: assertTrue.h assertTrue.c
 	gcc -c assertTrue.c -g $(CFLAGS)
 
-unittest1:
+unittest1: unittest1.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o unittest1.c rngs.o assertTrue.o -o unittest1  -lm -g
 
-unittest2:
+unittest2: unittest2.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o unittest2.c rngs.o assertTrue.o -o unittest2  -lm -g
 
-unittest3:
+unittest3: unittest3.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o unittest3.c rngs.o assertTrue.o -o unittest3  -lm -g
 
-unittest4:
+unittest4: unittest4.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o unittest4.c rngs.o assertTrue.o -o unittest4  -lm -g
 
-cardtest1:
+cardtest1: cardtest1.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o cardtest1.c rngs.o assertTrue.o -o cardtest1  -lm -g
 
-cardtest2:
+cardtest2: cardtest2.c
 	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o cardtest2.c rngs.o assertTrue.o -o cardtest2  -lm -g
+
+randomtestcard1: randomtestcard1.c
+	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o randomtestcard1.c rngs.o assertTrue.o -o randomtestcard1  -lm -g
+
+randomtestcard2: randomtestcard2.c
+	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o randomtestcard2.c rngs.o assertTrue.o -o randomtestcard2  -lm -g
+
+randomadventurer: randomadventurer.c
+	gcc -fprofile-arcs -ftest-coverage -Wall -std=c99 dominion.o randomadventurer.c rngs.o assertTrue.o -o randomadventurer  -lm -g
+
+randomtestcard1.out: randomtestcard1 
+	./randomtestcard1 &> randomtestcard1.out
+	gcov dominion.c >> randomtestcard1.out
+	gcov -b dominion.c >> randomtestcard1.out
+	cat dominion.c.gcov >> randomtestcard1.out
+
+randomtestcard2.out: randomtestcard2 
+	./randomtestcard2 &> randomtestcard2.out
+	gcov dominion.c >> randomtestcard2.out
+	cat dominion.c.gcov >> randomtestcard2.out
+
+randomadventurer.out: randomadventurer 
+	./randomadventurer &> randomadventurer.out
+	gcov dominion.c >> randomadventurer.out
+	cat dominion.c.gcov >> randomadventurer.out
 
 unittestresults.out: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 
 	./unittest1 &> unittestresults.out
