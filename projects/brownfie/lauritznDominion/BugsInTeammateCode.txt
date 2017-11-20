@@ -1,0 +1,18 @@
+Dominion Bug Report
+Author: Erick Brownfield
+Date: 11/19/2017
+
+1. smithy_card()
+
+Description: Based on the unit test results, this function is failing to return the correct hand count. In other words, it is most likely not drawing the correct number of cards.
+
+Bug: On line 44 of dominion.c, the the for loop counter is set to incrememt to 3 and start at 0, resulting in 4 cards being drawn, rather than 3.
+
+2. village_card()
+
+Description: Based on unit test results, the function is failing to return a correct gamestate afterwards. 
+
+Bug: On line 64 of dominion.c, the discardCard() function's first argument has been hardcoded to 0 rather than using hand pos, resulting in an incorrect discard. 
+
+
+
